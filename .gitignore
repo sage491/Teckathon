@@ -1,0 +1,29 @@
+# Editor directories and files
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python
+venv/
+env/
+__pycache__/
+*.py[cod]
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# Build outputs
+dist/
+build/
+
+# OS files
+desktop.ini

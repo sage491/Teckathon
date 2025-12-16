@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic AI Loan Decisioning System | NBFC</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Bar -->
+    <header class="header-bar">
+        <div class="header-left">
+            <div class="logo">
+                <i class="fas fa-building-columns"></i>
+                <span>TATA Capital</span>
+            </div>
+            <div class="system-title">Agentic AI Loan Decisioning System</div>
+        </div>
+        <div class="header-right">
+            <div class="session-info">
+                <span class="session-label">Session:</span>
+                <span id="sessionId" class="session-id">--</span>
+            </div>
+            <button id="resetBtn" class="btn-reset" title="Reset Session">
+                <i class="fas fa-refresh"></i> Reset
+            </button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- LEFT PANEL: Customer Chat Interface -->
+        <div class="panel chat-panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <i class="fas fa-comments"></i>
+                    Customer Journey
+                </div>
+                <div class="panel-subtitle">Loan Application Chat</div>
+            </div>
+            
+            <div class="chat-container">
+                <div id="chatMessages" class="chat-messages">
+                    <!-- Welcome message -->
+                    <div class="chat-message bot-message">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">AI Assistant</div>
+                            <div class="message-text">
+                                Welcome to TATA Capital! I'm here to help you with your personal loan application. 
+                                Let's start by understanding your loan requirements.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step-by-step Form -->
+                <div class="chat-input-area">
+                    <div id="formStep1" class="form-step active">
+                        <div class="step-indicator">Step 1 of 4: Loan Details</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="loanAmount">
+                                    <i class="fas fa-indian-rupee-sign"></i> Loan Amount
+                                </label>
+                                <input type="number" id="loanAmount" placeholder="e.g., 500000" min="50000" max="5000000">
+                                <span class="input-hint">₹50,000 - ₹50,00,000</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="tenure">
+                                    <i class="fas fa-calendar-days"></i> Tenure (months)
+                                </label>
+                                <input type="number" id="tenure" placeholder="e.g., 36" min="6" max="84">
+                                <span class="input-hint">6 - 84 months</span>
+                            </div>
+                        </div>
+                        <button type="button" id="submitStep1" class="btn-step">
+                            Continue <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div id="formStep2" class="form-step">
+                        <div class="step-indicator">Step 2 of 4: Purpose</div>
+                        <div class="form-group">
+                            <label><i class="fas fa-bullseye"></i> Loan Purpose</label>
+                            <div class="purpose-grid">
+                                <button class="purpose-btn" data-purpose="home_improvement">
+                                    <i class="fas fa-home"></i>
+                                    Home Improvement
+                                </button>
+                                <button class="purpose-btn" data-purpose="education">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    Education
+                                </button>
+                                <button class="purpose-btn" data-purpose="medical">
+                                    <i class="fas fa-stethoscope"></i>
+                                    Medical
+                                </button>
+                                <button class="purpose-btn" data-purpose="wedding">
+                                    <i class="fas fa-rings-wedding"></i>
+                                    Wedding
+                                </button>
+                                <button class="purpose-btn" data-purpose="travel">
+                                    <i class="fas fa-plane"></i>
+                                    Travel
+                                </button>
+                                <button class="purpose-btn" data-purpose="debt_consolidation">
+                                    <i class="fas fa-money-bill-transfer"></i>
+                                    Debt Consolidation
+                                </button>
+                                <button class="purpose-btn" data-purpose="other">
+                                    <i class="fas fa-ellipsis"></i>
+                                    Other
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="formStep3" class="form-step">
+                        <div class="step-indicator">Step 3 of 4: Employment</div>
+                        <div class="form-group">
+                            <label><i class="fas fa-briefcase"></i> Employment Type</label>
+                            <div class="employment-grid">
+                                <button class="employment-btn" data-employment="salaried">
+                                    <i class="fas fa-user-tie"></i>
+                                    Salaried
+                                </button>
+                                <button class="employment-btn" data-employment="self-employed">
+                                    <i class="fas fa-user-gear"></i>
+                                    Self-Employed
+                                </button>
+                                <button class="employment-btn" data-employment="business">
+                                    <i class="fas fa-building"></i>
+                                    Business Owner
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="formStep4" class="form-step">
+                        <div class="step-indicator">Step 4 of 4: Income Range</div>
+                        <div class="form-group">
+                            <label><i class="fas fa-wallet"></i> Monthly Income</label>
+                            <div class="income-grid">
+                                <button class="income-btn" data-income="0-25000">
+                                    <span class="income-range">₹0 - ₹25K</span>
+                                </button>
+                                <button class="income-btn" data-income="25000-50000">
+                                    <span class="income-range">₹25K - ₹50K</span>
+                                </button>
+                                <button class="income-btn" data-income="50000-100000">
+                                    <span class="income-range">₹50K - ₹1L</span>
+                                </button>
+                                <button class="income-btn" data-income="100000+">
+                                    <span class="income-range">₹1L+</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Documents Section (appears after intent) -->
+                    <div id="documentsStep" class="form-step">
+                        <div class="step-indicator">KYC & Document Verification</div>
+                        
+                        <!-- KYC Verification Choice -->
+                        <div id="kycChoiceSection" class="kyc-choice-section">
+                            <div class="choice-header">
+                                <i class="fas fa-shield-halved"></i>
+                                <span>Choose Verification Method</span>
+                            </div>
+                            <div class="verification-options">
+                                <button id="digilockerBtn" class="verification-option recommended">
+                                    <div class="option-icon digilocker">
+                                        <i class="fas fa-cloud-arrow-down"></i>
+                                    </div>
+                                    <div class="option-content">
+                                        <div class="option-title">DigiLocker Verification</div>
+                                        <div class="option-desc">Instant KYC via secure OAuth</div>
+                                        <div class="option-badge">
+                                            <i class="fas fa-star"></i> Recommended
+                                        </div>
+                                    </div>
+                                </button>
+                                <button id="manualUploadBtn" class="verification-option">
+                                    <div class="option-icon manual">
+                                        <i class="fas fa-upload"></i>
+                                    </div>
+                                    <div class="option-content">
+                                        <div class="option-title">Manual Upload</div>
+                                        <div class="option-desc">Upload PAN document manually</div>
+                                        <div class="option-badge fallback">
+                                            Fallback option
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- DigiLocker Simulation (hidden initially) -->
+                        <div id="digilockerFlow" class="digilocker-flow" style="display: none;">
+                            <div class="digilocker-header">
+                                <i class="fas fa-lock"></i>
+                                <span>DigiLocker OAuth Authentication</span>
+                            </div>
+                            <div class="oauth-simulation">
+                                <div class="oauth-step">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span id="oauthStatus">Connecting to DigiLocker...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Manual PAN Upload (hidden initially) -->
+                        <div id="manualPanSection" class="documents-container" style="display: none;">
+                            <div class="doc-upload-card" id="panCard">
+                                <div class="doc-icon">
+                                    <i class="fas fa-id-card"></i>
+                                </div>
+                                <div class="doc-info">
+                                    <div class="doc-title">PAN Card</div>
+                                    <div class="doc-status" id="panDocStatus">Required for KYC</div>
+                                </div>
+                                <button id="uploadPANBtn" class="btn-upload-doc">
+                                    <i class="fas fa-upload"></i> Upload
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Salary Slip (always visible after KYC) -->
+                        <div id="salarySlipSection" class="documents-container" style="display: none;">
+                            <div class="doc-upload-card" id="salaryCard">
+                                <div class="doc-icon">
+                                    <i class="fas fa-file-invoice-dollar"></i>
+                                </div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Salary Slip</div>
+                                    <div class="doc-status" id="salaryDocStatus">Optional - boosts approval</div>
+                                </div>
+                                <button id="uploadSalaryBtn" class="btn-upload-doc">
+                                    <i class="fas fa-upload"></i> Upload
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER PANEL: Decision Dashboard -->
+        <div class="panel decision-panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <i class="fas fa-gauge-high"></i>
+                    AI Decision Panel
+                </div>
+                <div class="panel-subtitle">Internal View - Real-time Decisioning</div>
+            </div>
+
+            <div class="decision-container">
+                <!-- Decision State Card -->
+                <div class="decision-card state-card">
+                    <div class="state-header">
+                        <div class="state-label">DECISION STATUS</div>
+                        <div id="decisionState" class="state-value" data-state="PENDING">PENDING</div>
+                    </div>
+                    <div class="state-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Active Agent</span>
+                            <span id="activeAgent" class="meta-value agent-badge">
+                                <i class="fas fa-robot"></i> Awaiting
+                            </span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Risk Level</span>
+                            <span id="riskStatus" class="meta-value risk-badge" data-risk="UNKNOWN">
+                                <i class="fas fa-shield"></i> UNKNOWN
+                            </span>
+                        </div>
+                    </div>
+                    <div class="risk-rationale" id="riskRationale" style="display: none;"></div>
+                </div>
+
+                <!-- Overall Confidence Gauge -->
+                <div class="decision-card confidence-card">
+                    <div class="confidence-header">
+                        <span class="confidence-label">Overall Confidence</span>
+                        <span id="overallConfidenceValue" class="confidence-value">0%</span>
+                    </div>
+                    <div class="confidence-gauge">
+                        <div class="gauge-track">
+                            <div id="overallConfidenceBar" class="gauge-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="gauge-markers">
+                            <span class="marker" style="left: 50%">50%</span>
+                            <span class="marker" style="left: 70%">70%</span>
+                            <span class="marker" style="left: 90%">90%</span>
+                        </div>
+                        <div class="gauge-labels">
+                            <span class="label-item" data-zone="pending">&lt; 50%: Verification Required</span>
+                            <span class="label-item" data-zone="process">50-69%: Processing</span>
+                            <span class="label-item" data-zone="review">70-89%: Review</span>
+                            <span class="label-item" data-zone="approved">≥ 90%: Approved</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confidence Breakdown -->
+                <div class="decision-card breakdown-card">
+                    <div class="breakdown-header">Confidence Breakdown</div>
+                    <div class="breakdown-grid">
+                        <div class="breakdown-item">
+                            <div class="breakdown-icon intent">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <div class="breakdown-details">
+                                <div class="breakdown-label">Intent</div>
+                                <div class="breakdown-bar-wrap">
+                                    <div class="breakdown-bar">
+                                        <div id="intentConfidenceBar" class="breakdown-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span id="intentConfidenceValue" class="breakdown-value">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-icon identity">
+                                <i class="fas fa-fingerprint"></i>
+                            </div>
+                            <div class="breakdown-details">
+                                <div class="breakdown-label">Identity</div>
+                                <div class="breakdown-bar-wrap">
+                                    <div class="breakdown-bar">
+                                        <div id="identityConfidenceBar" class="breakdown-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span id="identityConfidenceValue" class="breakdown-value">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-icon income">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="breakdown-details">
+                                <div class="breakdown-label">Income</div>
+                                <div class="breakdown-bar-wrap">
+                                    <div class="breakdown-bar">
+                                        <div id="incomeConfidenceBar" class="breakdown-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span id="incomeConfidenceValue" class="breakdown-value">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-icon credit">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="breakdown-details">
+                                <div class="breakdown-label">Credit</div>
+                                <div class="breakdown-bar-wrap">
+                                    <div class="breakdown-bar">
+                                        <div id="creditConfidenceBar" class="breakdown-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span id="creditConfidenceValue" class="breakdown-value">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Data (if available) -->
+                <div class="decision-card customer-card" id="customerDataCard" style="display: none;">
+                    <div class="customer-header">
+                        <i class="fas fa-user-check"></i> Verified Customer
+                    </div>
+                    <div class="customer-details">
+                        <div class="customer-row">
+                            <span class="customer-label">Name</span>
+                            <span id="customerName" class="customer-value">--</span>
+                        </div>
+                        <div class="customer-row">
+                            <span class="customer-label">PAN</span>
+                            <span id="customerPAN" class="customer-value">--</span>
+                        </div>
+                        <div class="customer-row">
+                            <span class="customer-label">Credit Score</span>
+                            <span id="creditScoreDisplay" class="customer-value credit-score">--</span>
+                        </div>
+                        <div class="customer-row" id="incomeRow" style="display: none;">
+                            <span class="customer-label">Verified Income (OCR)</span>
+                            <span id="verifiedIncomeDisplay" class="customer-value income-verified">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sanction Section -->
+                <div class="decision-card sanction-card">
+                    <button id="generateSanctionBtn" class="btn-sanction" disabled>
+                        <i class="fas fa-file-signature"></i>
+                        Generate Sanction Letter
+                    </button>
+                    <div id="sanctionOutput" class="sanction-output"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: Agent Activity Log -->
+        <div class="panel activity-panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <i class="fas fa-list-check"></i>
+                    Agent Activity Log
+                </div>
+                <div class="panel-subtitle">Real-time Agent Orchestration</div>
+            </div>
+
+            <!-- Agent Pipeline Visualization -->
+            <div class="agent-pipeline">
+                <div class="pipeline-item" id="pipelineSales">
+                    <div class="pipeline-icon"><i class="fas fa-handshake"></i></div>
+                    <div class="pipeline-name">Sales Agent</div>
+                    <div class="pipeline-status">Idle</div>
+                </div>
+                <div class="pipeline-connector"></div>
+                <div class="pipeline-item" id="pipelineVerification">
+                    <div class="pipeline-icon"><i class="fas fa-shield-check"></i></div>
+                    <div class="pipeline-name">Verification</div>
+                    <div class="pipeline-status">Idle</div>
+                </div>
+                <div class="pipeline-connector"></div>
+                <div class="pipeline-item" id="pipelineUnderwriting">
+                    <div class="pipeline-icon"><i class="fas fa-scale-balanced"></i></div>
+                    <div class="pipeline-name">Underwriting</div>
+                    <div class="pipeline-status">Idle</div>
+                </div>
+                <div class="pipeline-connector"></div>
+                <div class="pipeline-item" id="pipelineSanction">
+                    <div class="pipeline-icon"><i class="fas fa-file-contract"></i></div>
+                    <div class="pipeline-name">Sanction</div>
+                    <div class="pipeline-status">Locked</div>
+                </div>
+            </div>
+
+            <!-- Activity Log -->
+            <div class="activity-log-container">
+                <div id="activityLog" class="activity-log">
+                    <!-- Activity entries will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sanction Letter Modal -->
+    <div id="sanctionModal" class="modal">
+        <div class="modal-content sanction-letter">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-file-signature"></i>
+                    Loan Sanction Letter
+                </div>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div id="sanctionLetterContent" class="modal-body">
+                <!-- Sanction letter content will be injected here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-download" onclick="window.print()">
+                    <i class="fas fa-download"></i> Download PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="loanDecisionLogic.js"></script>
+    <script src="ui.js"></script>
+</body>
+</html>
